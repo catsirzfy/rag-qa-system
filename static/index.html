@@ -2,76 +2,118 @@
 <html lang="zh">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>企业知识库问答系统</title>
+<title>企业知识库 · SmartKB</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f2f5;min-height:100vh}
-.nav{background:#1a1a2e;color:#fff;padding:14px 30px;display:flex;justify-content:space-between;align-items:center}
-.nav h2{color:#e94560;font-size:18px}
-.nav .user-info{display:flex;align-items:center;gap:14px;font-size:14px}
-.nav .badge{padding:3px 10px;border-radius:14px;font-size:12px;font-weight:600}
-.badge.admin{background:#e94560;color:#fff}.badge.user{background:#555;color:#ccc}
-.nav button{background:none;border:1px solid #555;color:#ccc;padding:5px 14px;border-radius:6px;cursor:pointer;font-size:13px}
-.nav button:hover{background:#333}
-.container{max-width:1200px;margin:0 auto;padding:20px}
-.login-box{max-width:400px;margin:80px auto;background:#fff;border-radius:16px;padding:40px;box-shadow:0 2px 16px rgba(0,0,0,.1)}
-.login-box h1{text-align:center;margin-bottom:6px;color:#1a1a2e}
-.login-box .sub{text-align:center;color:#888;margin-bottom:24px;font-size:14px}
-.login-box input{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;margin-bottom:12px;font-size:15px;outline:none}
-.login-box input:focus{border-color:#e94560}
-.login-box .btn{width:100%;padding:12px;background:#e94560;color:#fff;border:none;border-radius:8px;font-size:16px;cursor:pointer;font-weight:600}
-.login-box .btn:hover{background:#c73e54}
-.login-box .switch{text-align:center;margin-top:14px;color:#888;font-size:14px}
-.login-box .switch a{color:#e94560;cursor:pointer;text-decoration:none}
-.login-box .switch a:hover{text-decoration:underline}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 8px rgba(0,0,0,.06);margin-bottom:20px}
-.card h3{margin-bottom:14px;font-size:16px}
-.tabs{display:flex;gap:2px;margin-bottom:16px}
-.tab{padding:8px 18px;border:1px solid #ddd;background:#fff;cursor:pointer;border-radius:8px 8px 0 0;font-size:14px}
-.tab.active{background:#e94560;color:#fff;border-color:#e94560}
-table{width:100%;border-collapse:collapse}
-th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #eee;font-size:13px}
-th{background:#f8f9fa;font-weight:600}
-.tag{padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
-.tag.admin{background:#e94560;color:#fff}.tag.user{background:#e0e0e0;color:#555}
-.upload-zone{border:2px dashed #ddd;border-radius:12px;padding:24px;text-align:center;cursor:pointer}
-.upload-zone:hover{border-color:#e94560;background:#fff5f5}
-.upload-zone input{display:none}
-.file-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #f0f0f0;font-size:14px}
-.file-row button{background:none;border:none;color:#e94560;cursor:pointer;font-size:12px}
-.chat-area{max-height:450px;overflow-y:auto;margin-bottom:12px}
-.msg{margin-bottom:10px}
-.msg .bubble{display:inline-block;max-width:80%;padding:8px 14px;border-radius:12px;font-size:14px;line-height:1.5}
-.msg.user{text-align:right}.msg.user .bubble{background:#e94560;color:#fff;border-bottom-right-radius:4px}
-.msg.ai .bubble{background:#eef1f5;color:#333;border-bottom-left-radius:4px}
-.msg .meta{font-size:11px;color:#999;margin-top:2px}
-.input-row{display:flex;gap:8px}
-.input-row input{flex:1;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;outline:none}
-.input-row input:focus{border-color:#e94560}
-.input-row button{padding:10px 20px;background:#e94560;color:#fff;border:none;border-radius:8px;cursor:pointer}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
-.stat{padding:18px;background:#fff;border-radius:10px;text-align:center;box-shadow:0 1px 6px rgba(0,0,0,.05)}
-.stat .val{font-size:26px;font-weight:700;color:#e94560}.stat .lbl{font-size:12px;color:#888;margin-top:4px}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f7f8fc;color:#2d3436;min-height:100vh}
+:root{--primary:#2563eb;--primary-light:#dbeafe;--primary-dark:#1d4ed8;--success:#059669;--success-light:#d1fae5;--warning:#d97706;--warning-light:#fef3c7;--danger:#dc2626;--danger-light:#fee2e2;--gray-50:#f9fafb;--gray-100:#f3f4f6;--gray-200:#e5e7eb;--gray-500:#6b7280;--gray-700:#374151;--gray-900:#111827;--shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);--shadow-lg:0 4px 16px rgba(0,0,0,.08)}
+
+/* Nav */
+.nav{background:#fff;border-bottom:1px solid var(--gray-200);padding:0 32px;height:60px;display:flex;justify-content:space-between;align-items:center;box-shadow:var(--shadow)}
+.nav .logo{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:700;color:var(--gray-900)}
+.nav .logo .icon{width:36px;height:36px;background:linear-gradient(135deg,var(--primary),#7c3aed);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px}
+.nav .user-info{display:flex;align-items:center;gap:12px;font-size:14px}
+.nav .badge{padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600}
+.badge.admin{background:var(--primary-light);color:var(--primary-dark)}
+.badge.user{background:var(--gray-100);color:var(--gray-700)}
+.nav button{background:var(--gray-100);border:none;color:var(--gray-700);padding:6px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500}
+.nav button:hover{background:var(--gray-200)}
+
+.container{max-width:1280px;margin:0 auto;padding:24px 32px}
 .hidden{display:none!important}
+
+/* Login */
+.login-box{max-width:420px;margin:100px auto;background:#fff;border-radius:16px;padding:48px 40px;box-shadow:var(--shadow-lg);text-align:center}
+.login-box .logo{font-size:40px;margin-bottom:8px}
+.login-box h1{font-size:22px;color:var(--gray-900);margin-bottom:4px;font-weight:700}
+.login-box .sub{color:var(--gray-500);font-size:14px;margin-bottom:28px}
+.login-box input{width:100%;padding:12px 16px;border:1.5px solid var(--gray-200);border-radius:10px;margin-bottom:12px;font-size:15px;outline:none;transition:border .2s;background:var(--gray-50)}
+.login-box input:focus{border-color:var(--primary);background:#fff}
+.login-box .btn{width:100%;padding:12px;background:var(--primary);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s}
+.login-box .btn:hover{background:var(--primary-dark)}
+.login-box .switch{margin-top:16px;color:var(--gray-500);font-size:14px}
+.login-box .switch a{color:var(--primary);cursor:pointer;font-weight:600;text-decoration:none}
+.login-box .switch a:hover{text-decoration:underline}
+
+/* Cards */
+.card{background:#fff;border-radius:12px;padding:24px;box-shadow:var(--shadow);margin-bottom:20px;border:1px solid var(--gray-100)}
+.card h3{font-size:16px;font-weight:600;color:var(--gray-900);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.card h3 .dot{width:8px;height:8px;border-radius:50%}
+.dot.blue{background:var(--primary)}.dot.green{background:var(--success)}.dot.amber{background:var(--warning)}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat{background:#fff;padding:20px;border-radius:12px;text-align:center;box-shadow:var(--shadow);border:1px solid var(--gray-100)}
+.stat .val{font-size:30px;font-weight:800;color:var(--primary)}
+.stat .lbl{font-size:13px;color:var(--gray-500);margin-top:4px}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;margin-bottom:20px}
+.tab{padding:10px 20px;background:var(--gray-100);color:var(--gray-500);border:none;border-radius:10px 10px 0 0;cursor:pointer;font-size:14px;font-weight:500;transition:all .2s}
+.tab:hover{background:var(--gray-200)}
+.tab.active{background:#fff;color:var(--primary);box-shadow:var(--shadow);font-weight:600}
+
+/* Tables */
+table{width:100%;border-collapse:collapse}
+thead th{background:var(--gray-50);padding:10px 12px;text-align:left;font-size:12px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--gray-200)}
+tbody td{padding:12px;font-size:14px;border-bottom:1px solid var(--gray-100);color:var(--gray-700)}
+tbody tr:hover{background:var(--gray-50)}
+.tag{padding:2px 10px;border-radius:12px;font-size:11px;font-weight:600}
+.tag.admin{background:var(--primary-light);color:var(--primary-dark)}
+.tag.user{background:var(--gray-100);color:var(--gray-500)}
+.btn-sm{padding:4px 12px;border-radius:6px;border:1px solid var(--gray-200);background:#fff;cursor:pointer;font-size:12px;margin:0 2px}
+.btn-sm.danger{color:var(--danger);border-color:var(--danger-light);background:var(--danger-light)}
+.btn-sm.danger:hover{background:var(--danger);color:#fff}
+.btn-sm.primary{color:var(--primary);border-color:var(--primary-light);background:var(--primary-light)}
+.btn-sm.primary:hover{background:var(--primary);color:#fff}
+.btn-sm.success{color:var(--success);border-color:var(--success-light);background:var(--success-light)}
+
+/* Upload */
+.upload-zone{border:2px dashed var(--gray-200);border-radius:12px;padding:32px;text-align:center;cursor:pointer;transition:all .2s}
+.upload-zone:hover{border-color:var(--primary);background:var(--primary-light)}
+.upload-zone p{color:var(--gray-500)}
+.upload-zone input{display:none}
+.file-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--gray-100);font-size:14px}
+
+/* Chat */
+.chat-area{max-height:450px;overflow-y:auto;margin-bottom:14px;padding:8px 0}
+.msg{margin-bottom:12px;display:flex;flex-direction:column}
+.msg.user{align-items:flex-end}
+.msg .bubble{max-width:78%;padding:10px 16px;border-radius:14px;font-size:14px;line-height:1.6}
+.msg.user .bubble{background:var(--primary);color:#fff;border-bottom-right-radius:4px}
+.msg.ai .bubble{background:var(--gray-100);color:var(--gray-700);border-bottom-left-radius:4px}
+.msg .meta{font-size:11px;color:var(--gray-500);margin:2px 4px 0}
+.input-row{display:flex;gap:10px;margin-top:8px}
+.input-row input{flex:1;padding:12px 16px;border:1.5px solid var(--gray-200);border-radius:10px;font-size:14px;outline:none;transition:border .2s}
+.input-row input:focus{border-color:var(--primary)}
+.input-row button{padding:12px 24px;background:var(--primary);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s}
+.input-row button:hover{background:var(--primary-dark)}
+
+/* Modal */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:100}
+.modal{background:#fff;border-radius:16px;padding:28px 32px;width:400px;box-shadow:var(--shadow-lg)}
+.modal h3{margin-bottom:16px;font-size:18px}.modal input,.modal select{width:100%;padding:10px 12px;border:1.5px solid var(--gray-200);border-radius:8px;margin-bottom:12px;font-size:14px;outline:none}
+.modal input:focus{border-color:var(--primary)}
+.modal .modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+.modal .modal-btns button{padding:8px 20px;border-radius:8px;border:none;cursor:pointer;font-size:14px;font-weight:500}
+.modal .btn-cancel{background:var(--gray-100);color:var(--gray-700)}
+.modal .btn-save{background:var(--primary);color:#fff}
 </style>
 </head>
 <body>
 
 <nav class="nav hidden" id="nav">
-  <h2>🏢 企业知识库</h2>
-  <div class="user-info">
-    <span id="navUser"></span><span class="badge" id="navBadge"></span>
-    <button onclick="logout()">退出</button>
-  </div>
+  <div class="logo"><div class="icon">KB</div>SmartKB</div>
+  <div class="user-info"><span id="navUser"></span><span class="badge" id="navBadge"></span><button onclick="logout()">退出登录</button></div>
 </nav>
 
 <div class="container">
-  <!-- ========== 登录 ========== -->
+  <!-- Login -->
   <div id="loginPage">
     <div class="login-box">
-      <h1 id="loginTitle">🎯 企业知识库</h1>
-      <p class="sub">登录以访问知识库</p>
+      <div class="logo">📚</div>
+      <h1 id="loginTitle">企业知识库</h1>
+      <p class="sub">SmartKB — 智能文档问答平台</p>
       <input type="text" id="loginUsername" placeholder="用户名">
       <input type="email" id="loginEmail" placeholder="邮箱（注册时需要）" class="hidden">
       <input type="password" id="loginPassword" placeholder="密码">
@@ -80,52 +122,73 @@ th{background:#f8f9fa;font-weight:600}
     </div>
   </div>
 
-  <!-- ========== 普通用户 ========== -->
+  <!-- User -->
   <div id="userPage" class="hidden">
-    <div class="card"><h3>💬 知识库问答</h3>
-      <div class="chat-area" id="chatBox"><div class="msg ai"><div class="bubble">你好！在下方输入问题，我会基于企业知识库回答。</div></div></div>
-      <div class="input-row"><input type="text" id="questionInput" placeholder="输入问题..." onkeypress="if(event.key==='Enter')ask()"><button onclick="ask()">发送</button></div>
+    <div class="card"><h3><span class="dot blue"></span>智能问答</h3>
+      <div class="chat-area" id="chatBox"><div class="msg ai"><div class="bubble">你好！我是企业知识库助手，请基于已上传的文档向我提问。</div></div></div>
+      <div class="input-row"><input id="questionInput" placeholder="输入你的问题..." onkeypress="if(event.key==='Enter')ask()"><button onclick="ask()">发送</button></div>
     </div>
   </div>
 
-  <!-- ========== 管理员 ========== -->
+  <!-- Admin -->
   <div id="adminPage" class="hidden">
     <div class="stats" id="statsRow"></div>
     <div class="tabs">
-      <div class="tab active" onclick="switchAdminTab('docs')">📄 文档管理</div>
-      <div class="tab" onclick="switchAdminTab('chat')">💬 知识库问答</div>
-      <div class="tab" onclick="switchAdminTab('audit')">📋 审计日志</div>
-      <div class="tab" onclick="switchAdminTab('users')">👥 用户管理</div>
+      <button class="tab active" onclick="switchAdmin('docs')">📄 文档管理</button>
+      <button class="tab" onclick="switchAdmin('chat')">💬 知识库问答</button>
+      <button class="tab" onclick="switchAdmin('audit')">📋 审计日志</button>
+      <button class="tab" onclick="switchAdmin('users')">👥 用户管理</button>
     </div>
-    <div id="tabDocs"><div class="card"><h3>📤 上传文档</h3><div class="upload-zone" onclick="document.getElementById('fileInput').click()"><p>📁 点击上传文档（仅管理员可操作）</p><p style="color:#999;font-size:13px">支持 .md / .txt / .pdf</p><input type="file" id="fileInput" multiple accept=".md,.txt,.pdf" onchange="uploadFiles()"></div><div style="margin-top:14px" id="fileList"></div></div></div>
-    <div id="tabChat" class="hidden"><div class="card"><h3>💬 知识库问答</h3><div class="chat-area" id="adminChatBox"><div class="msg ai"><div class="bubble">你好！在下方输入问题。</div></div></div><div class="input-row"><input type="text" id="adminQuestionInput" placeholder="输入问题..." onkeypress="if(event.key==='Enter')adminAsk()"><button onclick="adminAsk()">发送</button></div></div></div>
-    <div id="tabAudit" class="hidden"><div class="card"><h3>📋 问答审计日志</h3><table><thead><tr><th>时间</th><th>用户</th><th>问题</th><th>回答摘要</th></tr></thead><tbody id="auditTable"></tbody></table></div></div>
-    <div id="tabUsers" class="hidden"><div class="card"><h3>👥 用户列表</h3><table><thead><tr><th>ID</th><th>用户名</th><th>邮箱</th><th>角色</th><th>状态</th></tr></thead><tbody id="userTable"></tbody></table></div></div>
+
+    <div id="tabDocs"><div class="card"><h3><span class="dot green"></span>上传新文档</h3><div class="upload-zone" onclick="document.getElementById('fileInput').click()"><p>📁 点击或将文件拖拽到此处</p><p style="font-size:13px">支持 Markdown、TXT、PDF</p><input type="file" id="fileInput" multiple accept=".md,.txt,.pdf" onchange="uploadFiles()"></div><div style="margin-top:16px" id="fileList"></div></div></div>
+
+    <div id="tabChat" class="hidden"><div class="card"><h3><span class="dot blue"></span>知识库问答</h3><div class="chat-area" id="adminChatBox"><div class="msg ai"><div class="bubble">你好！请输入问题。</div></div></div><div class="input-row"><input id="adminQuestionInput" placeholder="输入问题..." onkeypress="if(event.key==='Enter')adminAsk()"><button onclick="adminAsk()">发送</button></div></div></div>
+
+    <div id="tabAudit" class="hidden"><div class="card"><h3><span class="dot amber"></span>问答审计日志</h3><button class="btn-sm danger" style="float:right;margin-bottom:8px" onclick="clearAudit()">清空日志</button><table><thead><tr><th>时间</th><th>用户</th><th>问题</th><th>操作</th></tr></thead><tbody id="auditTable"></tbody></table></div></div>
+
+    <div id="tabUsers" class="hidden"><div class="card"><h3><span class="dot blue"></span>用户管理</h3><button class="btn-sm primary" style="float:right;margin-bottom:8px" onclick="showAddUser()">+ 添加用户</button><table><thead><tr><th>ID</th><th>用户名</th><th>邮箱</th><th>角色</th><th>状态</th><th>操作</th></tr></thead><tbody id="userTable"></tbody></table></div></div>
   </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay hidden" id="modal"><div class="modal" id="modalContent"></div></div>
 </div>
 
 <script>
 const API='/api/v1';let mode='login',token=localStorage.getItem('rag_token')||'',user=JSON.parse(localStorage.getItem('rag_user')||'null');
 function hd(){return{'Authorization':'Bearer '+token,'Content-Type':'application/json'}}
-function toggleMode(){mode=mode==='login'?'register':'login';document.getElementById('loginTitle').textContent=mode==='login'?'🎯 企业知识库':'📝 注册';document.getElementById('loginEmail').classList.toggle('hidden',mode==='login');document.getElementById('loginBtn').textContent=mode==='login'?'登 录':'注 册';document.getElementById('switchText').textContent=mode==='login'?'还没有账号？':'已有账号？';document.getElementById('switchLink').textContent=mode==='login'?'立即注册':'返回登录'}
+function h(){return{'Authorization':'Bearer '+token}}
+
+function toggleMode(){mode=mode==='login'?'register':'login';document.getElementById('loginTitle').textContent=mode==='login'?'企业知识库':'创建账号';document.getElementById('loginEmail').classList.toggle('hidden',mode==='login');document.getElementById('loginBtn').textContent=mode==='login'?'登 录':'注 册';document.getElementById('switchText').textContent=mode==='login'?'还没有账号？':'已有账号？';document.getElementById('switchLink').textContent=mode==='login'?'立即注册':'返回登录'}
 async function handleLogin(){const u=document.getElementById('loginUsername').value.trim(),p=document.getElementById('loginPassword').value.trim();if(!u||!p)return alert('请填写用户名和密码');if(mode==='register'){const e=document.getElementById('loginEmail').value.trim();if(!e)return alert('请填写邮箱');const r=await fetch(API+'/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,email:e,password:p})});const d=await r.json();if(r.ok){alert('注册成功，请登录');toggleMode()}else{alert(d.detail||'注册失败')}return}const r=await fetch(API+'/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})});const d=await r.json();if(r.ok){token=d.data.access_token;user=d.data.user;localStorage.setItem('rag_token',token);localStorage.setItem('rag_user',JSON.stringify(user));show()}else{alert(d.detail||'登录失败')}}
 function logout(){token='';user=null;localStorage.clear();show()}
 
-// 管理员上传
-async function uploadFiles(){const files=document.getElementById('fileInput').files;if(!files.length)return;const fd=new FormData();for(let f of files)fd.append('files',f);const r=await fetch(API+'/chat/upload',{method:'POST',headers:{Authorization:'Bearer '+token},body:fd});const d=await r.json();alert(r.ok?d.message:(d.detail||'失败'));if(r.ok)loadFiles()}
-async function loadFiles(){const r=await fetch(API+'/chat/documents');const d=await r.json();const el=document.getElementById('fileList');if(!d.data||!d.data.files.length){el.innerHTML='<p style="color:#999">暂无文档</p>';return}el.innerHTML=d.data.files.map(f=>`<div class="file-row"><span>📄 ${f}</span><button onclick="deleteFile('${f}')">删除</button></div>`).join('')}
-async function deleteFile(fn){if(!confirm('确定删除 '+fn+'？'))return;const r=await fetch(API+'/chat/documents/'+encodeURIComponent(fn),{method:'DELETE',headers:{Authorization:'Bearer '+token}});const d=await r.json();alert(d.message||'删除失败');if(r.ok)loadFiles()}
+async function uploadFiles(){const files=document.getElementById('fileInput').files;if(!files.length)return;const fd=new FormData();for(let f of files)fd.append('files',f);const r=await fetch(API+'/chat/upload',{method:'POST',headers:h(),body:fd});const d=await r.json();alert(r.ok?d.message:(d.detail||'失败'));if(r.ok)loadFiles()}
+async function loadFiles(){const r=await fetch(API+'/chat/documents');const d=await r.json();const el=document.getElementById('fileList');if(!d.data||!d.data.files.length){el.innerHTML='<p style="color:var(--gray-500)">暂无文档，请上传</p>';return}el.innerHTML=d.data.files.map(f=>`<div class="file-row"><span>📄 ${f}</span><button class="btn-sm danger" onclick="deleteFile('${f}')">删除</button></div>`).join('')}
+async function deleteFile(fn){if(!confirm('确定删除？'))return;const r=await fetch(API+'/chat/documents/'+encodeURIComponent(fn),{method:'DELETE',headers:h()});const d=await r.json();alert(d.message||'失败');if(r.ok)loadFiles()}
 
-// 问答
-async function doAsk(inputId,boxId){const q=document.getElementById(inputId).value.trim();if(!q)return;document.getElementById(inputId).value='';const box=document.getElementById(boxId);box.innerHTML+=`<div class="msg user"><div class="bubble">${q}</div></div>`;const div=document.createElement('div');div.className='msg ai';const b=document.createElement('div');b.className='bubble';div.appendChild(b);box.appendChild(div);box.scrollTop=box.scrollHeight;let full='';const r=await fetch(API+'/chat/ask/stream',{method:'POST',headers:hd(),body:JSON.stringify({question:q})});const reader=r.body.getReader();const dec=new TextDecoder();while(1){const{value,done}=await reader.read();if(done)break;for(let line of dec.decode(value).split('\n')){if(!line.startsWith('data: '))continue;try{const d=JSON.parse(line.slice(6));if(d.done)break;if(d.text){full+=d.text;b.textContent=full;box.scrollTop=box.scrollHeight}}catch(e){}}}b.textContent=full||'未获取到回答'}
+async function doAsk(iid,bid){const q=document.getElementById(iid).value.trim();if(!q)return;document.getElementById(iid).value='';const box=document.getElementById(bid);box.innerHTML+=`<div class="msg user"><div class="bubble">${q}</div></div>`;const div=document.createElement('div');div.className='msg ai';const b=document.createElement('div');b.className='bubble';div.appendChild(b);box.appendChild(div);box.scrollTop=box.scrollHeight;let full='';const r=await fetch(API+'/chat/ask/stream',{method:'POST',headers:hd(),body:JSON.stringify({question:q})});const reader=r.body.getReader();const dec=new TextDecoder();while(1){const{value,done}=await reader.read();if(done)break;for(let line of dec.decode(value).split('\n')){if(!line.startsWith('data: '))continue;try{const d=JSON.parse(line.slice(6));if(d.done)break;if(d.text){full+=d.text;b.textContent=full;box.scrollTop=box.scrollHeight}}catch(e){}}}b.textContent=full||'未获取到回答'}
 function ask(){doAsk('questionInput','chatBox')}
 function adminAsk(){doAsk('adminQuestionInput','adminChatBox')}
 
-// 管理员面板
-async function loadAdmin(){const[ur,ar]=await Promise.all([fetch(API+'/admin/users',{headers:hd()}),fetch(API+'/admin/audit',{headers:hd()})]);const users=(await ur.json()).data||[],audit=(await ar.json()).data||{};document.getElementById('statsRow').innerHTML=`<div class="stat"><div class="val">${users.length}</div><div class="lbl">用户总数</div></div><div class="stat"><div class="val">${audit.total||0}</div><div class="lbl">问答次数</div></div><div class="stat"><div class="val">${users.filter(u=>u.role==='admin').length}</div><div class="lbl">管理员</div></div><div class="stat"><div class="val">${users.filter(u=>u.role==='user').length}</div><div class="lbl">普通用户</div></div>`;document.getElementById('userTable').innerHTML=users.map(u=>`<tr><td>${u.id}</td><td>${u.username}</td><td>${u.email}</td><td><span class="tag ${u.role}">${u.role}</span></td><td>${u.is_active?'✅':'❌'}</td></tr>`).join('');document.getElementById('auditTable').innerHTML=(audit.items||[]).map(h=>`<tr><td>${(h.time||'').substring(0,16)}</td><td>${h.username}</td><td>${(h.question||'').substring(0,50)}</td><td>${(h.answer||'').substring(0,60)}</td></tr>`).join('');loadFiles()}
-function switchAdminTab(t){['docs','chat','audit','users'].forEach(x=>document.getElementById('tab'+x.charAt(0).toUpperCase()+x.slice(1)).classList.toggle('hidden',x!==t));document.querySelectorAll('.tab').forEach((el,i)=>{const tabs=['docs','chat','audit','users'];el.classList.toggle('active',tabs[i]===t)})}
+// Users CRUD
+function showAddUser(editData){const isEdit=!!editData;document.getElementById('modal').classList.remove('hidden');document.getElementById('modalContent').innerHTML=`
+<h3>${isEdit?'编辑用户':'添加用户'}</h3>
+<input type="text" id="muUsername" placeholder="用户名" value="${isEdit?editData.username:''}">
+<input type="email" id="muEmail" placeholder="邮箱" value="${isEdit?editData.email:''}">
+<input type="password" id="muPassword" placeholder="${isEdit?'留空则不修改密码':'密码'}">
+<select id="muRole"><option value="user" ${isEdit&&editData.role==='user'?'selected':''}>普通用户</option><option value="admin" ${isEdit&&editData.role==='admin'?'selected':''}>管理员</option></select>
+<div class="modal-btns"><button class="btn-cancel" onclick="document.getElementById('modal').classList.add('hidden')">取消</button><button class="btn-save" onclick="${isEdit?`saveEditUser(${editData.id})`:'saveAddUser()'}">保存</button></div>`
+}
+async function saveAddUser(){const u=document.getElementById('muUsername').value.trim(),e=document.getElementById('muEmail').value.trim(),p=document.getElementById('muPassword').value,r=document.getElementById('muRole').value;if(!u||!e||!p)return alert('请填写完整');const res=await fetch(API+'/admin/users',{method:'POST',headers:hd(),body:JSON.stringify({username:u,email:e,password:p,role:r})});const d=await res.json();if(res.ok){document.getElementById('modal').classList.add('hidden');loadAdmin()}else alert(d.detail||'失败')}
+async function saveEditUser(id){const u=document.getElementById('muUsername').value.trim(),e=document.getElementById('muEmail').value.trim(),p=document.getElementById('muPassword').value,r=document.getElementById('muRole').value;if(!u||!e)return alert('请填写用户名和邮箱');const body={username:u,email:e,role:r};if(p)body.password=p;const res=await fetch(API+'/admin/users/'+id,{method:'PUT',headers:hd(),body:JSON.stringify(body)});const d=await res.json();if(res.ok){document.getElementById('modal').classList.add('hidden');loadAdmin()}else alert(d.detail||'失败')}
+async function toggleUser(id,active){const res=await fetch(API+'/admin/users/'+id,{method:'PUT',headers:hd(),body:JSON.stringify({is_active:!active})});if(res.ok)loadAdmin()}
+async function deleteUser(id){if(!confirm('确定删除此用户？'))return;const res=await fetch(API+'/admin/users/'+id,{method:'DELETE',headers:hd()});if(res.ok)loadAdmin()}
+async function clearAudit(){if(!confirm('确定清空所有审计日志？'))return;const res=await fetch(API+'/admin/audit',{method:'DELETE',headers:hd()});if(res.ok)loadAdmin()}
 
-function show(){document.getElementById('loginPage').classList.toggle('hidden',!!(token&&user));document.getElementById('nav').classList.toggle('hidden',!(token&&user));document.getElementById('userPage').classList.toggle('hidden',!(token&&user&&user.role==='user'));document.getElementById('adminPage').classList.toggle('hidden',!(token&&user&&user.role==='admin'));if(token&&user){document.getElementById('navUser').textContent=user.username;const b=document.getElementById('navBadge');b.className='badge '+(user.role==='admin'?'admin':'user');b.textContent=user.role==='admin'?'管理员':'用户';if(user.role==='admin')loadAdmin()}}
+async function loadAdmin(){const[ur,ar]=await Promise.all([fetch(API+'/admin/users',{headers:hd()}),fetch(API+'/admin/audit',{headers:hd()})]);const users=(await ur.json()).data||[],audit=(await ar.json()).data||{};document.getElementById('statsRow').innerHTML=`<div class="stat"><div class="val">${users.length}</div><div class="lbl">总用户数</div></div><div class="stat"><div class="val">${audit.total||0}</div><div class="lbl">问答总次数</div></div><div class="stat"><div class="val">${users.filter(u=>u.role==='admin').length}</div><div class="lbl">管理员</div></div><div class="stat"><div class="val">${users.filter(u=>u.is_active).length}</div><div class="lbl">活跃用户</div></div>`;document.getElementById('auditTable').innerHTML=(audit.items||[]).map(h=>`<tr><td>${(h.time||'').substring(0,16)}</td><td>${h.username}</td><td>${(h.question||'').substring(0,60)}</td><td><button class="btn-sm danger" onclick="deleteAuditItem(${h.id})">删除</button></td></tr>`).join('')||'<tr><td colspan="4" style="color:var(--gray-500);text-align:center">暂无记录</td></tr>';document.getElementById('userTable').innerHTML=users.map(u=>`<tr><td>${u.id}</td><td>${u.username}</td><td>${u.email}</td><td><span class="tag ${u.role}">${u.role==='admin'?'管理员':'用户'}</span></td><td>${u.is_active?'<span style="color:var(--success)">启用</span>':'<span style="color:var(--danger)">禁用</span>'}</td><td><button class="btn-sm primary" onclick="showAddUser(${JSON.stringify(u).replace(/"/g,'&quot;')})">编辑</button><button class="btn-sm success" onclick="toggleUser(${u.id},${u.is_active})">${u.is_active?'禁用':'启用'}</button><button class="btn-sm danger" onclick="deleteUser(${u.id})">删除</button></td></tr>`).join('');loadFiles()}
+async function deleteAuditItem(id){if(!confirm('确定删除此条记录？'))return;const res=await fetch(API+'/admin/audit/'+id,{method:'DELETE',headers:hd()});if(res.ok)loadAdmin()}
+function switchAdmin(t){['docs','chat','audit','users'].forEach(x=>document.getElementById('tab'+x.charAt(0).toUpperCase()+x.slice(1)).classList.toggle('hidden',x!==t));document.querySelectorAll('.tab').forEach((el,i)=>{const tabs=['docs','chat','audit','users'];el.classList.toggle('active',tabs[i]===t)})}
+function show(){const authed=!!(token&&user);document.getElementById('loginPage').classList.toggle('hidden',authed);document.getElementById('nav').classList.toggle('hidden',!authed);document.getElementById('userPage').classList.toggle('hidden',!(authed&&user&&user.role==='user'));document.getElementById('adminPage').classList.toggle('hidden',!(authed&&user&&user.role==='admin'));if(authed&&user){document.getElementById('navUser').textContent=user.username;const b=document.getElementById('navBadge');b.className='badge '+(user.role==='admin'?'admin':'user');b.textContent=user.role==='admin'?'管理员':'用户';if(user.role==='admin')loadAdmin()}}
 show()
 </script>
 </body>

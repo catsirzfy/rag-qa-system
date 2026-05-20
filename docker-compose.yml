@@ -1,15 +1,13 @@
 services:
   app:
     build: .
-    container_name: rag-qa-app
-    ports: ["8000:8000"]
-    volumes: ["./chroma_db:/app/chroma_db", "./app.db:/app/app.db"]
-    env_file: .env
-    restart: unless-stopped
-  streamlit:
-    build: .
-    container_name: rag-qa-streamlit
-    command: streamlit run frontend/app.py --server.port 8501 --server.address 0.0.0.0
-    ports: ["8501:8501"]
-    depends_on: [app]
+    container_name: smartkb
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./chroma_db:/app/chroma_db
+      - ./uploads:/app/uploads
+      - ./app.db:/app/app.db
+    env_file:
+      - .env
     restart: unless-stopped
