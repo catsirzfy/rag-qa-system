@@ -13,6 +13,8 @@ from app.models.user import User
 
 router = APIRouter()
 UPLOAD_DIR = Path("uploads"); UPLOAD_DIR.mkdir(exist_ok=True)
+ALLOWED_EXTS = {".md", ".txt", ".pdf"}   # 上传白名单
+MAX_FILE_SIZE = 10 * 1024 * 1024         # 单文件上限 10MB
 
 class AskRequest(BaseModel): question: str
 
@@ -20,12 +22,40 @@ class AskRequest(BaseModel): question: str
 @router.post("/upload")
 async def upload(files: list[UploadFile] = File(...), admin: User = Depends(require_admin)):
     total = 0
+    skipped = []
     for f in files:
-        if not f.filename: continue
-        path = UPLOAD_DIR / f.filename
-        with open(path, "wb") as fh: shutil.copyfileobj(f.file, fh)
+        if not f.filename:
+            continue
+        # 防目录穿越：只取文件名，丢弃客户端传来的路径部分
+        name = Path(f.filename).name
+        ext = Path(name).suffix.lower()
+        # 白名单：只允许 md/txt/pdf
+        if ext not in ALLOWED_EXTS:
+            skipped.append(name)
+            continue
+        path = (UPLOAD_DIR / name).resolve()
+        # 双保险：确认最终路径确实落在 uploads 目录内
+        if path.parent != UPLOAD_DIR.resolve():
+            skipped.append(name)
+            continue
+        # 大小限制：边写边算，超限即中止并清理残留文件
+        size = 0
+        try:
+            with open(path, "wb") as fh:
+                while chunk := f.file.read(1024 * 1024):
+                    size += len(chunk)
+                    if size > MAX_FILE_SIZE:
+                        raise ValueError("exceed")
+                    fh.write(chunk)
+        except ValueError:
+            path.unlink(missing_ok=True)
+            skipped.append(f"{name}(超大)")
+            continue
         total += rag_service.index_file(str(path))
-    return {"code": 200, "message": f"已索引 {total} 块", "total_chunks": rag_service.get_documents()["chunks"]}
+    msg = f"已索引 {total} 块"
+    if skipped:
+        msg += f"；跳过：{', '.join(skipped)}"
+    return {"code": 200, "message": msg, "total_chunks": rag_service.get_documents()["chunks"]}
 
 # --- 管理员：删除 ---
 @router.delete("/documents/{filename}")
